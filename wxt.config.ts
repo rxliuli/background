@@ -22,7 +22,8 @@ export default defineConfig({
     const manifest: UserManifest = {
       name: 'Background',
       description: 'Sets a custom background image for all websites',
-      permissions: [],
+      permissions: ['scripting'],
+      host_permissions: ['<all_urls>'],
       author: {
         email: 'rxliuli@gmail.com',
       },
@@ -34,6 +35,7 @@ export default defineConfig({
           '96': 'icon/96.png',
           '128': 'icon/128.png',
         },
+        default_popup: 'popup.html',
       },
       homepage_url: 'https://rxliuli.com/project/background',
     }
