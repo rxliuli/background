@@ -4,9 +4,9 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   modules: ['@wxt-dev/module-react', 'wxt-module-safari-xcode'],
   safariXcode: {
-    projectName: 'Background',
-    appCategory: 'public.app-category.productivity',
-    bundleIdentifier: 'com.rxliuli.background',
+    projectName: 'Webpage Background',
+    appCategory: 'public.app-category.utilities',
+    bundleIdentifier: 'com.rxliuli.webpage-background',
     developmentTeam: 'N2X78TUUFG',
   },
   vite: () => ({
@@ -21,8 +21,7 @@ export default defineConfig({
   manifest: (env) => {
     const manifest: UserManifest = {
       name: 'Background',
-      description:
-        'Sets a custom background image for all websites',
+      description: 'Sets a custom background image for all websites',
       permissions: ['contextMenus'],
       author: {
         email: 'rxliuli@gmail.com',
@@ -53,6 +52,9 @@ export default defineConfig({
       // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/author
       // @ts-expect-error
       manifest.author = 'rxliuli'
+    }
+    if (env.browser === 'safari') {
+      manifest.name = 'Webpage Background'
     }
     return manifest
   },
