@@ -22,7 +22,7 @@ export default defineConfig({
     const manifest: UserManifest = {
       name: 'Background',
       description: 'Sets a custom background image for all websites',
-      permissions: ['contextMenus'],
+      permissions: [],
       author: {
         email: 'rxliuli@gmail.com',
       },

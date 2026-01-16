@@ -5,7 +5,6 @@ A browser extension that sets a custom background image for all websites.
 ## Features
 
 - Upload an image from the options page
-- Right-click any image on a webpage and select "Set as background"
 - Background persists across browser sessions
 
 ## Install
