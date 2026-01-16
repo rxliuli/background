@@ -4,9 +4,9 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   modules: ['@wxt-dev/module-react', 'wxt-module-safari-xcode'],
   safariXcode: {
-    projectName: 'Browser Extension Template',
+    projectName: 'Background',
     appCategory: 'public.app-category.productivity',
-    bundleIdentifier: 'com.rxliuli.browser-extension-template',
+    bundleIdentifier: 'com.rxliuli.background',
     developmentTeam: 'N2X78TUUFG',
   },
   vite: () => ({
@@ -20,11 +20,10 @@ export default defineConfig({
   manifestVersion: 3,
   manifest: (env) => {
     const manifest: UserManifest = {
-      name: 'Browser Extension Template',
+      name: 'Background',
       description:
-        'A template for WXT, a WebExtension framework based on Vite and React',
-      permissions: ['storage'],
-      host_permissions: ['<all_urls>'],
+        'Sets a custom background image for all websites',
+      permissions: ['contextMenus'],
       author: {
         email: 'rxliuli@gmail.com',
       },
@@ -37,7 +36,7 @@ export default defineConfig({
           '128': 'icon/128.png',
         },
       },
-      homepage_url: 'https://rxliuli.com/project/browser-extension-template',
+      homepage_url: 'https://rxliuli.com/project/background',
     }
     if (env.browser === 'firefox') {
       manifest.browser_specific_settings = {
