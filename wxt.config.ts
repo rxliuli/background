@@ -9,14 +9,6 @@ export default defineConfig({
     bundleIdentifier: 'com.rxliuli.webpage-background',
     developmentTeam: 'N2X78TUUFG',
   },
-  vite: () => ({
-    plugins: [tailwindcss()] as any,
-    resolve: {
-      alias: {
-        '@': __dirname,
-      },
-    },
-  }),
   manifestVersion: 3,
   manifest: (env) => {
     const manifest: UserManifest = {
@@ -60,6 +52,18 @@ export default defineConfig({
     }
     return manifest
   },
+  vite: () => ({
+    plugins: [tailwindcss()] as any,
+    resolve: {
+      alias: {
+        '@': __dirname,
+      },
+    },
+    build: {
+      minify: false,
+      sourcemap: true,
+    },
+  }),
   webExt: {
     disabled: true,
   },

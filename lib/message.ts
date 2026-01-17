@@ -5,9 +5,12 @@ export const messager = defineExtensionMessaging<{
   getBackground(): Promise<string | undefined>
 
   // content,popup => background
-  isBlacklisted(host: string): Promise<boolean>
+  isBlacklisted(options: string): Promise<boolean>
   // popup => background
-  addToBlacklist(host: string): Promise<void>
+  addToBlacklist(options: { hostname: string; tabId: number }): Promise<void>
   // popup => background
-  removeFromBlacklist(host: string): Promise<void>
+  removeFromBlacklist(options: {
+    hostname: string
+    tabId: number
+  }): Promise<void>
 }>()

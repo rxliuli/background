@@ -11,19 +11,21 @@ export function App() {
         active: true,
         currentWindow: true,
       })
-      if (!tab?.url) {
+      if (!tab.id || !tab?.url) {
         throw new Error('Not available')
       }
       const url = new URL(tab.url)
       const isBlacklisted = await messager.sendMessage(
         'isBlacklisted',
-        url.host,
+        url.hostname,
       )
       return {
-        host: url.host,
+        tabId: tab.id,
+        hostname: url.hostname,
         isBlacklisted,
       }
     },
+    retry: false,
   })
 
   const toggleBlacklistMutation = useMutation({
@@ -35,9 +37,9 @@ export function App() {
       const options = hostQuery.data
       console.log('Toggling blacklist for', options)
       if (options.isBlacklisted) {
-        await messager.sendMessage('removeFromBlacklist', options.host)
+        await messager.sendMessage('removeFromBlacklist', options)
       } else {
-        await messager.sendMessage('addToBlacklist', options.host)
+        await messager.sendMessage('addToBlacklist', options)
       }
       await hostQuery.refetch()
       console.log('Toggled blacklist for', options)
@@ -53,16 +55,30 @@ export function App() {
   }
 
   return (
-    <div className="flex items-center gap-2 p-3">
-      <Switch
-        id="enable"
-        onCheckedChange={() => toggleBlacklistMutation.mutate()}
-        checked={!hostQuery.data.isBlacklisted}
-        disabled={toggleBlacklistMutation.isPending}
-      />
-      <Label htmlFor="enable" className="whitespace-nowrap">
-        Enable on {hostQuery.data.host}
-      </Label>
+    <div>
+      <div className="flex items-center gap-2 p-3">
+        <Switch
+          id="enable"
+          onCheckedChange={() => toggleBlacklistMutation.mutate()}
+          checked={!hostQuery.data.isBlacklisted}
+          disabled={toggleBlacklistMutation.isPending}
+        />
+        <Label htmlFor="enable" className="whitespace-nowrap">
+          Enable on {hostQuery.data.hostname}
+        </Label>
+      </div>
+      <div className="px-3 pb-3">
+        <a
+          href="#"
+          className="text-sm text-blue-600 hover:underline"
+          onClick={async (e) => {
+            e.preventDefault()
+            await browser.runtime.openOptionsPage()
+          }}
+        >
+          Open Settings Page
+        </a>
+      </div>
     </div>
   )
 }

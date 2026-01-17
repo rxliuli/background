@@ -4,7 +4,7 @@ import { messager } from '@/lib/message'
 export default defineUnlistedScript(async () => {
   const isBlacklisted = await messager.sendMessage(
     'isBlacklisted',
-    location.host,
+    location.hostname,
   )
   if (isBlacklisted) {
     removeBackgroundStyle()

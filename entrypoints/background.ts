@@ -10,19 +10,12 @@ async function getBlacklist(): Promise<string[]> {
   return (await get<string[]>(BLACKLIST_KEY)) ?? []
 }
 
-async function setBlacklist(list: string[]): Promise<void> {
+async function setBlacklist(list: string[], tabId: number): Promise<void> {
   console.log('Setting blacklist to', list)
   await set(BLACKLIST_KEY, list)
-  const [tab] = await browser.tabs.query({
-    active: true,
-    currentWindow: true,
-  })
-  if (!tab?.id) {
-    return
-  }
   await updateContentScript()
   await browser.scripting.executeScript({
-    target: { tabId: tab.id },
+    target: { tabId },
     files: ['/inject.js'] as PublicPath[],
   })
 }
@@ -33,15 +26,18 @@ export default defineBackground(() => {
     const list = await getBlacklist()
     return list.includes(host)
   })
-  messager.onMessage('addToBlacklist', async ({ data: host }) => {
+  messager.onMessage('addToBlacklist', async (ev) => {
     const list = await getBlacklist()
-    if (!list.includes(host)) {
-      await setBlacklist([...list, host])
+    if (!list.includes(ev.data.hostname)) {
+      await setBlacklist([...list, ev.data.hostname], ev.data.tabId)
     }
   })
-  messager.onMessage('removeFromBlacklist', async ({ data: host }) => {
+  messager.onMessage('removeFromBlacklist', async (ev) => {
     const list = await getBlacklist()
-    await setBlacklist(list.filter((h) => h !== host))
+    await setBlacklist(
+      list.filter((h) => h !== ev.data.hostname),
+      ev.data.tabId,
+    )
   })
 
   browser.runtime.onInstalled.addListener(async () => {
@@ -49,9 +45,7 @@ export default defineBackground(() => {
     if (import.meta.env.PROD && (await get('hasVisitedOptionsPage'))) {
       return
     }
-    await browser.tabs.create({
-      url: browser.runtime.getURL('/options.html'),
-    })
+    await browser.runtime.openOptionsPage()
     await set('hasVisitedOptionsPage', true)
   })
 })
