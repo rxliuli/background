@@ -2,6 +2,8 @@
 
 A browser extension that sets a custom background image for all websites.
 
+<img width="1280" height="800" alt="Snipaste_2026-01-16_19-10-16" src="https://github.com/user-attachments/assets/9bbbdd68-333e-478e-ad17-9bc4b9c33951" />
+
 ## Features
 
 - Upload an image from the options page
