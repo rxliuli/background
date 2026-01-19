@@ -48,6 +48,7 @@ export default defineBackground(() => {
     await browser.runtime.openOptionsPage()
     await set('hasVisitedOptionsPage', true)
   })
+  browser.runtime.onStartup.addListener(updateContentScript)
 })
 
 async function updateContentScript() {
