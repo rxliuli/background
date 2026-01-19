@@ -9,7 +9,7 @@ A browser extension that sets a custom background image for all websites.
 
 ## Install
 
-- Chrome Web Store: Coming soon!
+- Chrome Web Store: <https://chromewebstore.google.com/detail/background/caafjbfceobnfkhliadckecbocecaaki>
 - Edge Add-ons: Coming soon!
 - Firefox Add-ons: Coming soon!
 - App Store: Coming soon!
